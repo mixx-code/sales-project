@@ -66,8 +66,8 @@ class PelangganController extends Controller
 
     public function update(Request $request, $id_pelanggan)
     {
-        //find pelanggan by ID
-        $pelanggan = Pelanggan::find($id_pelanggan);
+        //find pelanggan
+        $pelanggan = Pelanggan::where('id_pelanggan', $id_pelanggan)->firstOrFail();
 
         //validate incoming request
         $validator = Validator::make(
@@ -84,7 +84,7 @@ class PelangganController extends Controller
         }
 
         //update pelanggan
-        $pelanggan->update($request->all());
+        $pelanggan->update($request->only(['nama', 'domisili', 'jenis_kelamin']));
 
         //return response
         return new PelangganResource(
@@ -97,7 +97,7 @@ class PelangganController extends Controller
     public function destroy($id_pelanggan)
     {
         //find pelanggan by ID
-        $pelanggan = Pelanggan::find($id_pelanggan);
+        $pelanggan = Pelanggan::where('id_pelanggan', $id_pelanggan)->firstOrFail();
 
         //check if pelanggan not found
         if (!$pelanggan) {

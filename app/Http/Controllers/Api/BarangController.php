@@ -10,10 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class BarangController extends Controller
 {
-    //
     public function index()
     {
-        //
         $barang = Barang::paginate(10);
         return new BarangResource(
             true,
@@ -24,7 +22,6 @@ class BarangController extends Controller
 
     public function show($kode)
     {
-        //
         $barang = Barang::find($kode);
         return new BarangResource(
             true,
@@ -56,31 +53,7 @@ class BarangController extends Controller
         );
     }
 
-    // public function update(Request $request, $kode)
-    // {
-    //     //
-    //     $validator = Validator::make(
-    //         $request->all(),
-    //         [
-    //             'nama'      => 'sometimes|required|string|max:25',
-    //             'kategori'  => 'sometimes|required|string|max:20',
-    //             'harga'     => 'sometimes|required|integer',
-    //         ]
-    //     );
-    //     if ($validator->fails()) {
-    //         return response()->json($validator->errors(), 422);
-    //     }
-    //     $barang = Barang::where('kode', $kode)->firstOrFail();
-    //     // var_dump($barang);
-    //     $barang->update($request->only(['nama', 'kategori', 'harga']));
-    //     return new BarangResource(
-    //         true,
-    //         'Data Barang Berhasil Diupdate!',
-    //         $barang
-    //     );
-    // }
-
-    public function update(Request $request, $barang) // Ganti $kode menjadi $barang
+    public function update(Request $request, $kode)
     {
         $validator = Validator::make(
             $request->all(),
@@ -95,8 +68,7 @@ class BarangController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        // Cari barang dengan kode = $barang
-        $barang = Barang::where('kode', $barang)->firstOrFail(); // Parameter $barang berisi kode barang
+        $barang = Barang::where('kode', $kode)->firstOrFail(); 
         
         $barang->update($request->only(['nama', 'kategori', 'harga']));
 
@@ -109,9 +81,7 @@ class BarangController extends Controller
 
     public function destroy($kode)
     {
-        //
         $barang = Barang::where('kode', $kode)->firstOrFail();
-        // var_dump($barang);
 
         if (!$barang) {
             return new BarangResource(

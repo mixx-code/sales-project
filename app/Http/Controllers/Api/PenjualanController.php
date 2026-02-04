@@ -7,6 +7,7 @@ use App\Http\Resources\PenjualanResource;
 use App\Models\Penjualan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\ItemPenjualan;
 
 class PenjualanController extends Controller
 {
@@ -101,7 +102,13 @@ class PenjualanController extends Controller
                 null
             );
         }
+        
+        // Hapus semua item penjualan terkait terlebih dahulu
+        ItemPenjualan::where('nota', $id_nota)->delete();
+        
+        // Baru hapus penjualan
         $penjualan->delete();
+        
         return new PenjualanResource(
             true,
             'Data Penjualan Berhasil Dihapus!',

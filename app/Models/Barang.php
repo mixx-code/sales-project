@@ -8,6 +8,8 @@ class Barang extends Model
 {
     //
     protected $table = 'barang';
+    protected $primaryKey = 'kode';
+    public $incrementing = false;
     public $timestamps = false;
     protected $fillable = [
         'kode',
@@ -15,4 +17,9 @@ class Barang extends Model
         'kategori',
         'harga',
     ];
+
+    public function itemPenjualan()
+    {
+        return $this->hasMany(ItemPenjualan::class, 'kode_barang', 'kode');
+    }
 }

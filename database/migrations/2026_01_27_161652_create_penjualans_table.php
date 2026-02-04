@@ -16,6 +16,9 @@ return new class extends Migration
             $table->date('tgl');
             $table->string('kode_pelanggan', 12);
             $table->integer('subtotal');
+            $table->foreign('kode_pelanggan')
+              ->references('id_pelanggan')
+              ->on('pelanggan');
         });
     }
 
